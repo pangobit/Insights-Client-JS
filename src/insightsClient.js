@@ -1,9 +1,8 @@
 class InsightsClient {
     constructor(config = {}) {
-        // Default configuration
         const defaultConfig = {
-            targetApi: null, // Default to null, requiring configuration
-            debug: false // Optional debug flag
+            targetApi: null,
+            debug: false
         };
         this.config = { ...defaultConfig, ...config };
 
@@ -15,8 +14,9 @@ class InsightsClient {
     }
 
     initialize() {
-        console.log('InsightsClient Initialized');
-        // Initialization logic will go here
+        if (this.config.debug) {
+            console.log('InsightsClient Initialized');
+        }
         this.trackRouteChanges();
         this.trackButtonInteractions();
     }
@@ -25,28 +25,26 @@ class InsightsClient {
      * Tracks changes in the URL (route changes).
      */
     trackRouteChanges() {
-        // Route change tracking logic will be added here
-        console.log('Setting up route change tracking...');
-        this.currentPath = this.getCurrentPath(); // Store initial path
+        if (this.config.debug) {
+            console.log('Setting up route change tracking...');
+        }
+        this.currentPath = this.getCurrentPath();
 
-        // Listen for hash changes
         window.addEventListener('hashchange', () => {
             const newPath = this.getCurrentPath();
             this.reportRouteChange(this.currentPath, newPath);
             this.currentPath = newPath;
         });
 
-        // Listen for history API changes (pushState/replaceState need custom handling)
         window.addEventListener('popstate', () => {
             const newPath = this.getCurrentPath();
             this.reportRouteChange(this.currentPath, newPath);
             this.currentPath = newPath;
         });
 
-        // Note: pushState and replaceState don't fire events automatically.
-        // Robust SPA tracking often requires patching these methods or using framework-specific hooks.
-        // For this simple example, hashchange and popstate cover basic cases.
-        console.log('Route change tracking setup complete.');
+        if (this.config.debug) {
+            console.log('Route change tracking setup complete.');
+        }
     }
 
     /**
@@ -75,12 +73,11 @@ class InsightsClient {
      * Tracks clicks on button elements.
      */
     trackButtonInteractions() {
-        // Button interaction tracking logic will be added here
-        console.log('Setting up button interaction tracking...');
+        if (this.config.debug) {
+            console.log('Setting up button interaction tracking...');
+        }
 
-        // Use event delegation on the document
         document.addEventListener('click', (event) => {
-            // Find the closest button element (if any)
             const buttonElement = event.target.closest('button');
 
             if (buttonElement) {
@@ -97,7 +94,10 @@ class InsightsClient {
                 });
             }
         });
-        console.log('Button interaction tracking setup complete.');
+
+        if (this.config.debug) {
+            console.log('Button interaction tracking setup complete.');
+        }
     }
 
     /**
@@ -106,14 +106,11 @@ class InsightsClient {
      * @param {object} eventData - Additional data associated with the event.
      */
     reportEvent(eventName, eventData = {}) {
-        // Arbitrary event reporting logic will be added here
-        // console.log(`Reporting event: ${eventName}`, eventData); // Keep for debugging if needed
         const payload = {
             event: eventName,
             properties: eventData,
             url: window.location.href,
-            timestamp: Date.now(), // Ensure timestamp is always present
-            // Potentially add more common context here: user agent, screen size, etc.
+            timestamp: Date.now(),
         };
 
         this.sendData(payload);
@@ -124,9 +121,6 @@ class InsightsClient {
      * @param {object} data - The data to send.
      */
     sendData(data) {
-        // console.log('Sending data:', data); // Replaced by debug log
-        // In a real implementation, this would send data to an API endpoint.
-        // Example: fetch(this.config.endpoint, { method: 'POST', body: JSON.stringify(data) });
         if (this.config.debug) {
             console.log('[InsightsClient DEBUG] Sending data:', data);
         }
@@ -136,15 +130,12 @@ class InsightsClient {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Add any other headers needed, like API keys
                 },
                 body: JSON.stringify(data),
-                // Use keepalive for requests potentially happening during page unload
                 keepalive: true
             })
             .then(response => {
                 if (!response.ok) {
-                    // Log error details if response is not OK
                     response.text().then(text => {
                         console.error(`[InsightsClient] Failed to send data to ${this.config.targetApi}. Status: ${response.status}. Body: ${text}`);
                     });
