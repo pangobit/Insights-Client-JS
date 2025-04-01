@@ -1,0 +1,16 @@
+{
+  "name": "insights-client-js",
+  "version": "0.1.0",
+  "description": "A simple JavaScript client for tracking user interactions.",
+  "main": "index.js",
+  "scripts": {
+    "start:example": "npx http-server ./examples -o -c-1"
+  },
+  "keywords": [
+    "analytics",
+    "tracking",
+    "client-side"
+  ],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights Client JS Example</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        nav a { margin-right: 15px; }
+        button { margin-top: 10px; padding: 8px 15px; cursor: pointer; }
+        #content { margin-top: 20px; border: 1px solid #ccc; padding: 15px; min-height: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Insights Client JS Example</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div id="content">
+        <p>This is the initial content.</p>
+    </div>
+
+    <button id="trackButton1">Track Action 1</button>
+    <button id="trackButton2">Track Action 2</button>
+    <button id="customEventButton">Send Custom Event</button>
+
+    <!-- Load the client library -->
+    <!-- In a real app, you'd likely use a bundler (like Webpack, Rollup, or Parcel) -->
+    <!-- For simplicity, we'll use ES Modules directly in the browser -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
