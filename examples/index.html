@@ -28,9 +28,35 @@
     <button id="trackButton2">Track Action 2</button>
     <button id="customEventButton">Send Custom Event</button>
 
-    <!-- Load the client library -->
-    <!-- In a real app, you'd likely use a bundler (like Webpack, Rollup, or Parcel) -->
-    <!-- For simplicity, we'll use ES Modules directly in the browser -->
-    <script type="module" src="app.js"></script>
+    <!-- Load, Initialize, and Run App Logic -->
+    <script type="module">
+        // Import directly from jsDelivr CDN
+        import InsightsClient from 'https://cdn.jsdelivr.net/gh/pangobit/Insights-Client-JS@master/src/insightsClient.js';
+
+        // Initialize the client
+        const insights = new InsightsClient({
+            targetApi: '/api/track', // Example endpoint
+            debug: true // Use the debug flag from the outer scope if needed, or set directly
+        });
+        window.insights = insights; // Optional: keep global for debugging
+
+        const contentDiv = document.getElementById('content');
+        const customEventButton = document.getElementById('customEventButton');
+
+        // Function to update content (tracking is handled by the client)
+        function updateContent() {
+            const hash = window.location.hash || '#home';
+            contentDiv.innerHTML = `<p>Content for <strong>${hash.substring(1)}</strong> page.</p>`;
+        }
+
+        window.addEventListener('hashchange', updateContent);
+
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        customEventButton.addEventListener('click', () => {
+            insights.reportEvent('CustomUserAction', { detail: 'User clicked the special button', timestamp: Date.now() });
+        });
+
+    </script>
 </body>
 </html>
